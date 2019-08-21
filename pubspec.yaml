@@ -29,6 +29,13 @@ dependencies:
   jpush_flutter: ^0.0.13
   dio: ^2.1.13
   shared_preferences: ^0.5.3
+  # amap_base_map: ^0.4.4+1
+  # amap_base: ^0.3.5
+  # amap_base:
+  #   git:
+  #     url: https://github.com/yohom/amap_base_flutter.git
+  #     ref: android-support-library
+  #     path: base(/map/location/search/navi)
 
 dev_dependencies:
   flutter_test:

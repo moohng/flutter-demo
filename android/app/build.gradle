@@ -54,6 +54,8 @@ android {
                 JPUSH_PKGNAME : applicationId,
                 JPUSH_APPKEY : "71c7c1c041f7e0f6650db7e2", // NOTE: JPush 上注册的包名对应的 Appkey.
                 JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+
+                AMAP_KEY : "69219dc053aa5f71362a0f49fb65725b",
         ]
     }
 
