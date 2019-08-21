@@ -3,12 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_demo/pages/home/HomePage.dart';
 import 'package:flutter_demo/pages/map/MapPage.dart';
 import 'package:flutter_demo/pages/profile/ProfilePage.dart';
+import 'package:flutter_demo/pages/login/LoginPage.dart';
 
 
 class TabBarPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return _TabBarPageState();
   }
 }
@@ -34,8 +34,13 @@ class _TabBarPageState extends State<TabBarPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+
+    // Future.delayed(Duration(seconds: 5), () {
+    //   Navigator.of(context).pushReplacement(CupertinoPageRoute(builder: (context) {
+    //     return LoginPage();
+    //   }));
+    // });
   }
 
   @override

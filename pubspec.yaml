@@ -28,6 +28,7 @@ dependencies:
   intl: ^0.15.8
   jpush_flutter: ^0.0.13
   dio: ^2.1.13
+  shared_preferences: ^0.5.3
 
 dev_dependencies:
   flutter_test:

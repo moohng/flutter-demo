@@ -7,7 +7,7 @@ class HttpUtil {
   static Dio dio;
 
   // 默认 options
-  static const String BASE_URL = 'http://www.baidu.com/';
+  static const String BASE_URL = 'http://192.168.0.119/';
   static const int CONNECT_TIMEOUT = 20000;
   static const int RECEIVE_TIMEOUT = 5000;
 
@@ -23,12 +23,24 @@ class HttpUtil {
       // 请求拦截器
       dio.interceptors.add(InterceptorsWrapper(
         onRequest: (RequestOptions options) {
+          print('dio request >>> ${options.uri}');
           return options;
         },
         onResponse: (Response response) {
-          return response;
+          print('dio response >>> $response');
+
+          var result = response.data;
+          if (result is String) {
+            return dio.reject(result);
+          }
+          if (result['code'] != null && result['code'] != 0) {
+            return dio.reject(result);
+          }
+
+          return dio.resolve(result);
         },
         onError: (DioError err) {
+          print('dio error >>> ${err.message}');
           return err;
         },
       ));
@@ -41,7 +53,22 @@ class HttpUtil {
     return dio.get(path, options: options, queryParameters: queryParameters, cancelToken: cancelToken, onReceiveProgress: onReceiveProgress);
   }
 
+  static Future post(String path, { dynamic data, Options options }) async {
+    Dio dio = createInstance();
+    Response<Map<String, dynamic>> result = await dio.post<Map<String, dynamic>>(path, data: data, options: options);
+    return result.data;
+  }
+
   static clear() {
     dio = null;
   }
+}
+
+
+class ResultData {
+  final int code;
+  final Map<String, dynamic> data;
+  final String message;
+
+  ResultData(this.code, this.data, this.message);
 }
