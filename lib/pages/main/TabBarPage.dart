@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_demo/pages/home/HomePage.dart';
 import 'package:flutter_demo/pages/map/MapPage.dart';
 import 'package:flutter_demo/pages/profile/ProfilePage.dart';
-import 'package:flutter_demo/pages/login/LoginPage.dart';
+import 'package:flutter/material.dart';
 
 
 class TabBarPage extends StatefulWidget {
@@ -54,6 +54,7 @@ class _TabBarPageState extends State<TabBarPage> {
             _selectedIndex = index;
           });
         },
+        backgroundColor: Colors.transparent,
       ),
       backgroundColor: Color.fromARGB(255, 248, 248, 248),
       tabBuilder: (BuildContext context, int index) {

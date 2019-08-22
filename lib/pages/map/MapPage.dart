@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-// import 'package:amap_base/amap_base.dart';
+import 'package:amap_base_map/amap_base_map.dart';
 
 class MapPage extends StatefulWidget {
   @override
@@ -18,12 +18,18 @@ class _MapPageState extends State<MapPage> {
       navigationBar: CupertinoNavigationBar(
         middle: Text('地图'),
       ),
-      // child: AMapView(
-      //   amapOptions: AMapOptions(
-      //     zoomGesturesEnabled: true,
-      //   ),
-      // ),
-      child: Center(child: Text('ddd'),),
+      child: AMapView(
+        amapOptions: AMapOptions(
+          compassEnabled: true,
+          zoomControlsEnabled: false,
+          logoPosition: LOGO_POSITION_BOTTOM_CENTER,
+          // camera: CameraPosition(
+          //   target: LatLng(40.851827, 111.801637),
+          //   zoom: 20,
+          // ),
+        ),
+      ),
+      // child: Center(child: Text('ddd'),),
     );
   }
 }
