@@ -1,7 +1,7 @@
 //import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_demo/pages/home/HomePage.dart';
-import 'package:flutter_demo/pages/map/MapPage.dart';
+import 'package:flutter_demo/pages/message/MessagePage.dart';
 import 'package:flutter_demo/pages/profile/ProfilePage.dart';
 import 'package:flutter/material.dart';
 
@@ -15,14 +15,14 @@ class TabBarPage extends StatefulWidget {
 
 class _TabBarPageState extends State<TabBarPage> {
   int _selectedIndex = 0;
-  List<Widget> pages = [HomePage(), MapPage(), ProfilePage()];
+  List<Widget> pages = [HomePage(), MessagePage(), ProfilePage()];
   List<BottomNavigationBarItem> _itemList = [
     BottomNavigationBarItem(
       title: Text('首页'),
       icon: Icon(CupertinoIcons.home),
     ),
     BottomNavigationBarItem(
-      title: Text('地图'),
+      title: Text('消息'),
       icon: Icon(CupertinoIcons.eye),
     ),
     BottomNavigationBarItem(
