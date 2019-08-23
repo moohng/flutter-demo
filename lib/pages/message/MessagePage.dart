@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
+//import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class MessagePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return _MessagePageState();
   }
 }
@@ -11,16 +11,15 @@ class MessagePage extends StatefulWidget {
 class _MessagePageState extends State<MessagePage> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        middle: Text('消息'),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('消息', style: TextStyle(color: Colors.white),),
+        centerTitle: true,
+//        brightness: Brightness.dark,
+        elevation: 0.0,
       ),
-      child: ListWheelScrollView(
-        itemExtent: 20.0,
-        children: <Widget>[
-          Text('哈哈')
-        ],
+      body: Center(
+        child: Text('哈哈')
       ),
     );
   }

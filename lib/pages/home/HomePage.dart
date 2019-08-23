@@ -1,11 +1,12 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
+//import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:amap_base/amap_base.dart';
 // import 'package:flutter_demo/services/API.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_demo/widgets/BottomDragWidget.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -18,13 +19,15 @@ class _HomePageState extends State<HomePage> {
   AMapLocation _aMapLocation = AMapLocation();
   AMapController _aMapController;
 
+  double get screenH => MediaQuery.of(context).size.height;
+
   @override
   void initState() {
     super.initState();
 
     // fetchData();
 
-    fetchLocation();
+//    fetchLocation();
 
   }
 
@@ -47,7 +50,8 @@ class _HomePageState extends State<HomePage> {
       Location _location = await _aMapLocation.getLocation(LocationClientOptions(
         isOnceLocation: true,
       ));
-//      _aMapController.changeLatLng(LatLng(_location.latitude, _location.longitude));
+      _aMapController.changeLatLng(LatLng(_location.latitude, _location.longitude));
+      _aMapController.setZoomLevel(12);
       print(_location);
 //      _aMapLocation.startLocate(LocationClientOptions()).listen((data) {
 //        print('location $data');
@@ -69,8 +73,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
 
-    return CupertinoPageScaffold(
-      child: AMapView(
+    return BottomDragWidget(
+      body: AMapView(
         amapOptions: AMapOptions(
           zoomControlsEnabled: false,
           camera: CameraPosition(
@@ -83,35 +87,38 @@ class _HomePageState extends State<HomePage> {
           });
         },
       ),
-      // child: Center(child: Text('ddd'),),
-    );
-//    return CupertinoPageScaffold(
-//      navigationBar: CupertinoNavigationBar(
-//        middle: Text('首页', style: TextStyle(color: CupertinoColors.white),),
-//        backgroundColor: Colors.lightBlue,
-//      ),
-//      child: PageView(
-//        children: <Widget>[
-//          GestureDetector(
-//            child: Text('首页'),
-//            onTap: () {
-//              showCupertinoDialog(
-//                context: context,
-//                builder: (context) {
-//                  return CupertinoAlertDialog(
-//                    title: Text('提示'),
-//                    actions: <Widget>[
-//                      CupertinoButton(child: Text('确定'), onPressed: () => Navigator.of(context).pop(),),
-//                      CupertinoButton(child: Text('取消'), onPressed: () => Navigator.of(context).pop(),),
-//                    ],
-//                    content: Text('这是一段内容，这是一段内容，这是一段内容这是一段内容这是一段内容，这是一段内容这是一段内容。这是一段内容？'),
-//                  );
-//                },
-//              );
-//            },
+      dragContainer: DragContainer(
+        drawer: Container(
+//          child: OverscrollNotificationWidget(
+            child: Container(
+              height: 200,
+            ),
 //          ),
-//        ],
-//      ),
-//    );
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: const Radius.circular(10.0),
+              topRight: const Radius.circular(10.0),
+            )
+          ),
+        ),
+        defaultShowHeight: screenH * 0.1,
+        height: screenH * 0.8,
+      ),
+    );
   }
 }
+
+//showCupertinoDialog(
+//  context: context,
+//  builder: (context) {
+//    return CupertinoAlertDialog(
+//      title: Text('提示'),
+//      actions: <Widget>[
+//        CupertinoButton(child: Text('确定'), onPressed: () => Navigator.of(context).pop(),),
+//        CupertinoButton(child: Text('取消'), onPressed: () => Navigator.of(context).pop(),),
+//      ],
+//      content: Text('这是一段内容，这是一段内容，这是一段内容这是一段内容这是一段内容，这是一段内容这是一段内容。这是一段内容？'),
+//    );
+//  },
+//);

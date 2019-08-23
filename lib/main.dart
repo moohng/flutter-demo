@@ -8,14 +8,12 @@ import 'package:flutter_demo/pages/login/LoginPage.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';
 
 void main() async {
-  if (Platform.isAndroid) {
-    SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      // statusBarIconBrightness: Brightness.light,
-    );
-    // 状态栏
-    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
-  }
+  SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+//     statusBarIconBrightness: Brightness.dark,  暗
+  );
+  // 状态栏
+  SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   // 强制竖屏
   // await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
@@ -95,9 +93,11 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     bool isLogin = true;
-    return CupertinoApp(
+    return MaterialApp(
       title: 'Startup Name Generator',
-      theme: CupertinoThemeData(primaryColor: Colors.lightBlue),
+      theme: ThemeData(
+          primaryColor: Colors.lightBlue,
+      ),
       home: isLogin ? TabBarPage() : LoginPage(),
     );
   }

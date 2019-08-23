@@ -37,6 +37,7 @@ dependencies:
   #     url: https://github.com/yohom/amap_base_flutter.git
   #     ref: android-support-library
   #     path: base(/map/location/search/navi)
+  webview_flutter: ^0.3.13
 
 dev_dependencies:
   flutter_test:

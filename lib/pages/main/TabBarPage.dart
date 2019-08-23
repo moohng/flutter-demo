@@ -1,9 +1,8 @@
-//import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+//import 'package:flutter/cupertino.dart';
 import 'package:flutter_demo/pages/home/HomePage.dart';
 import 'package:flutter_demo/pages/message/MessagePage.dart';
 import 'package:flutter_demo/pages/profile/ProfilePage.dart';
-import 'package:flutter/material.dart';
 
 
 class TabBarPage extends StatefulWidget {
@@ -19,15 +18,15 @@ class _TabBarPageState extends State<TabBarPage> {
   List<BottomNavigationBarItem> _itemList = [
     BottomNavigationBarItem(
       title: Text('首页'),
-      icon: Icon(CupertinoIcons.home),
+      icon: Icon(Icons.home),
     ),
     BottomNavigationBarItem(
       title: Text('消息'),
-      icon: Icon(CupertinoIcons.eye),
+      icon: Icon(Icons.message),
     ),
     BottomNavigationBarItem(
       title: Text('我的'),
-      icon: Icon(CupertinoIcons.settings),
+      icon: Icon(Icons.settings),
     ),
   ];
 
@@ -43,10 +42,17 @@ class _TabBarPageState extends State<TabBarPage> {
     // });
   }
 
+  Widget _getPage(int index) {
+    return Offstage(
+      offstage: _selectedIndex != index,
+      child: pages[index],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return CupertinoTabScaffold(
-      tabBar: CupertinoTabBar(
+    return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
         items: _itemList,
         currentIndex: _selectedIndex,
         onTap: (int index) {
@@ -54,16 +60,16 @@ class _TabBarPageState extends State<TabBarPage> {
             _selectedIndex = index;
           });
         },
-        backgroundColor: Colors.transparent,
+        type: BottomNavigationBarType.fixed,
       ),
       backgroundColor: Color.fromARGB(255, 248, 248, 248),
-      tabBuilder: (BuildContext context, int index) {
-        return CupertinoTabView(
-          builder: (BuildContext context) {
-            return pages[index];
-          },
-        );
-      },
+      body: Stack(
+        children: [
+          _getPage(0),
+          _getPage(1),
+          _getPage(2),
+        ],
+      ),
     );
   }
 }
