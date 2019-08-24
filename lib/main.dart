@@ -1,15 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'dart:io';
+import 'package:catcher/catcher_plugin.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_demo/pages/main/TabBarPage.dart';
 import 'package:flutter_demo/pages/login/LoginPage.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
+
 //     statusBarIconBrightness: Brightness.dark,  暗
   );
   // 状态栏
@@ -18,9 +18,16 @@ void main() async {
   // await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
   // await SystemChrome.restoreSystemUIOverlays();
-  await initializeDateFormatting();
+//  await initializeDateFormatting();
 
-  runApp(MyApp());
+  // 错误收集
+  CatcherOptions debugOptions = CatcherOptions(
+      DialogReportMode(), [ConsoleHandler()],
+      localizationOptions: [LocalizationOptions.buildDefaultChineseOptions()]);
+  CatcherOptions releaseOptions = CatcherOptions(DialogReportMode(), [
+    EmailManualHandler(['moohng@126.com'])
+  ]);
+  Catcher(MyApp(), debugConfig: debugOptions, releaseConfig: releaseOptions);
 }
 
 class MyApp extends StatefulWidget {
@@ -60,25 +67,22 @@ class _MyAppState extends State<MyApp> {
 
     try {
       _jpush.addEventHandler(
-        onReceiveNotification: (Map<String, dynamic> message) async {
-          print('flutter onOpenNotification: $message');
-          setState(() {
-            debugLabel = 'flutter onOpenNotification: $message';
-          });
-        },
-        onOpenNotification: (Map<String, dynamic> message) async {
-          print('flutter onOpenNotification: $message');
-          setState(() {
-            debugLabel = 'flutter onOpenNotification: $message';
-          });
-        },
-        onReceiveMessage: (Map<String, dynamic> message) async {
-          print('flutter onReceiveMessage: $message');
-          setState(() {
-            debugLabel = 'flutter onReceiveMessage: $message';
-          });
-        }
-      );
+          onReceiveNotification: (Map<String, dynamic> message) async {
+        print('flutter onOpenNotification: $message');
+        setState(() {
+          debugLabel = 'flutter onOpenNotification: $message';
+        });
+      }, onOpenNotification: (Map<String, dynamic> message) async {
+        print('flutter onOpenNotification: $message');
+        setState(() {
+          debugLabel = 'flutter onOpenNotification: $message';
+        });
+      }, onReceiveMessage: (Map<String, dynamic> message) async {
+        print('flutter onReceiveMessage: $message');
+        setState(() {
+          debugLabel = 'flutter onReceiveMessage: $message';
+        });
+      });
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
@@ -94,9 +98,18 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     bool isLogin = true;
     return MaterialApp(
+      navigatorKey: Catcher.navigatorKey,
+      supportedLocales: [
+        const Locale('zh', 'CH'),
+        const Locale('en', 'US'),
+      ],
+      localizationsDelegates: [                             //此处
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
       title: 'Startup Name Generator',
       theme: ThemeData(
-          primaryColor: Colors.lightBlue,
+        primaryColor: Colors.lightBlue,
       ),
       home: isLogin ? TabBarPage() : LoginPage(),
     );

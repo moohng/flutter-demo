@@ -40,7 +40,6 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Text('确定'),
               onPressed: () {
                 String urlStr = editingController.text;
-                print('=============== $urlStr');
                 if (urlStr.isNotEmpty) {
                   Navigator.of(context).pop();
                   Router.push(context, urlStr, null);
@@ -58,6 +57,7 @@ class _ProfilePageState extends State<ProfilePage> {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarIconBrightness: Brightness.dark,
     ));
+
     return Scaffold(
       floatingActionButton: Container(
 //        color: Colors.lightBlue,
@@ -75,21 +75,15 @@ class _ProfilePageState extends State<ProfilePage> {
         child: IconButton(
           icon: Icon(Icons.add),
           color: Colors.white,
-          onPressed: () {},
+          onPressed: () {
+            _openDialog();
+          },
         ),
       ),
       appBar: AppBar(
         title: Text('个人中心'),
         centerTitle: true,
         elevation: 0,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              _openDialog();
-            },
-          )
-        ],
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: RefreshIndicator(

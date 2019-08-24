@@ -10,21 +10,41 @@ class Router {
   static const LOGIN_PAGE = 'app://login';
 
   Router.push(BuildContext context, String url, dynamic params) {
-    Navigator.push(context, MaterialPageRoute(
-      builder: (context) {
-        return _getPage(url, params);
-      }
-    ));
+    Widget _page = _getPage(url, params);
+//    if (_page == null) {
+//      showDialog(
+//          context: context,
+//          builder: (context) => AlertDialog(
+//            title: Text('页面不存在'),
+//          )
+//      );
+//    } else {
+      Navigator.push(context, MaterialPageRoute(
+          builder: (context) {
+            return _page;
+          }
+      ));
+//    }
   }
 
   Router.pushAndRemoveUntil(BuildContext context, String url, dynamic params) {
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-        builder: (context) {
-          return _getPage(url, params);
-        }
-    ), (route) {
-      return false;
-    });
+    Widget _page = _getPage(url, params);
+    if (_page == null) {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('页面不存在'),
+          )
+      );
+    } else {
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+          builder: (context) {
+            return _page;
+          }
+      ), (route) {
+        return false;
+      });
+    }
   }
 
   Widget _getPage(String url, dynamic params) {
