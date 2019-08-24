@@ -47,7 +47,7 @@ class _WebviewPageState extends State<WebviewPage> {
           print('================= ${navigation.url}}');
 //          Router.push(context, navigation.url, null);
 //          _controller.loadUrl(navigation.url);
-          return NavigationDecision.prevent;
+          return NavigationDecision.navigate;
         },
       ),
     );

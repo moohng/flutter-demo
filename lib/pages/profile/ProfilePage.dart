@@ -12,11 +12,45 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  TextEditingController _textController = TextEditingController(text: '');
 
   Future<void> _onRefresh() async {
     await Future.delayed(Duration(seconds: 2), () {
       print('refresh completed');
     });
+  }
+
+  void _openDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        TextEditingController editingController = TextEditingController();
+        return AlertDialog(
+          title: Text('打开'),
+          content: Container(
+            child: TextField(
+              controller: editingController,
+              decoration: InputDecoration(
+                labelText: '请输入页面地址'
+              ),
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('确定'),
+              onPressed: () {
+                String urlStr = editingController.text;
+                print('=============== $urlStr');
+                if (urlStr.isNotEmpty) {
+                  Navigator.of(context).pop();
+                  Router.push(context, urlStr, null);
+                }
+              },
+            )
+          ],
+        );
+      }
+    );
   }
 
   @override
@@ -25,55 +59,62 @@ class _ProfilePageState extends State<ProfilePage> {
       statusBarIconBrightness: Brightness.dark,
     ));
     return Scaffold(
+      floatingActionButton: Container(
+//        color: Colors.lightBlue,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.lightBlue,
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: Colors.black45,
+              blurRadius: 5.0,
+            )
+          ],
+//          borderRadius: BorderRadius.circular(40.0),
+        ),
+        child: IconButton(
+          icon: Icon(Icons.add),
+          color: Colors.white,
+          onPressed: () {},
+        ),
+      ),
+      appBar: AppBar(
+        title: Text('个人中心'),
+        centerTitle: true,
+        elevation: 0,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              _openDialog();
+            },
+          )
+        ],
+        iconTheme: IconThemeData(color: Colors.white),
+      ),
       body: RefreshIndicator(
         onRefresh: _onRefresh,
         child: CustomScrollView(
           physics: BouncingScrollPhysics(),
           slivers: <Widget>[
-            SliverAppBar(
-//              backgroundColor: Colors.white,
-              expandedHeight: 256.0,
-              pinned: true, // 固定顶部
-              elevation: 0,
-              flexibleSpace: FlexibleSpaceBar(
-                title: Text('个人中心'),
-                centerTitle: true,
-                background: Image.network(
-                  'http://img.anfone.net/Outside/anfone/201666/2016661523021277.jpg',
-                  fit: BoxFit.cover,
-                ),
-              ),
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.add_a_photo),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: Icon(Icons.wrap_text),
-                  onPressed: () {},
-                )
-              ],
-              actionsIconTheme: IconThemeData(color: Colors.white),
-               leading: Icon(Icons.chevron_left),
-              iconTheme: IconThemeData(color: Colors.orange),
-            ),
             SliverList(
               delegate: SliverChildBuilderDelegate((context, index) {
-                return Text('item: $index');
-              }, childCount: 100),
+                return Column(
+                  children: <Widget>[
+                    ListTile(
+                      title: Text('设置'),
+                      trailing: Icon(Icons.chevron_right),
+                      leading: Icon(Icons.settings),
+                      onTap: () {},
+                    ),
+                    Divider(
+                      height: 1,
+                      indent: 64,
+                    ),
+                  ],
+                );
+              }, childCount: 10),
             ),
-//            Container(
-//              height: 1000,
-//              color: Colors.greenAccent,
-//              child: Center(
-//                child: CupertinoButton(
-//                  child: Text('去登录'),
-//                  onPressed: () {
-//                    Router.push(context, Router.LOGIN_PAGE, null);
-//                  },
-//                ),
-//              ),
-//            ),
           ],
         ),
       ),
