@@ -91,7 +91,7 @@ class _HomePageState extends State<HomePage> {
         drawer: Container(
 //          child: OverscrollNotificationWidget(
             child: Container(
-              height: 200,
+              height: 100,
             ),
 //          ),
           decoration: BoxDecoration(
@@ -108,17 +108,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-//showCupertinoDialog(
-//  context: context,
-//  builder: (context) {
-//    return CupertinoAlertDialog(
-//      title: Text('提示'),
-//      actions: <Widget>[
-//        CupertinoButton(child: Text('确定'), onPressed: () => Navigator.of(context).pop(),),
-//        CupertinoButton(child: Text('取消'), onPressed: () => Navigator.of(context).pop(),),
-//      ],
-//      content: Text('这是一段内容，这是一段内容，这是一段内容这是一段内容这是一段内容，这是一段内容这是一段内容。这是一段内容？'),
-//    );
-//  },
-//);
