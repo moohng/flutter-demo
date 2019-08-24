@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-//import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_demo/pages/login/LoginPage.dart';
 import 'package:flutter_demo/pages/main/TabBarPage.dart';
+import 'package:flutter_demo/pages/webview/WebviewPage.dart';
 
 
 class Router {
@@ -28,9 +28,9 @@ class Router {
   }
 
   Widget _getPage(String url, dynamic params) {
-//    if (url.startsWith('http://') || url.startsWith('https://')) {
-//      return WebviewSc
-//    }
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return WebviewPage(url, params: params);
+    }
     switch (url) {
       case LOGIN_PAGE:
         return LoginPage();

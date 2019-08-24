@@ -1,5 +1,6 @@
 //import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/router.dart';
 
 class MessagePage extends StatefulWidget {
   @override
@@ -77,7 +78,9 @@ class _MessagePageState extends State<MessagePage> {
                     ),
                   ),
 //                  enabled: true,
-                  onTap: () {},
+                  onTap: () {
+                    Router.push(context, 'https://www.baidu.com', const { 'a': 'qqqqq' });
+                  },
                 ),
                 Divider(
                   height: 1,
