@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_demo/pages/login/LoginPage.dart';
 import 'package:flutter_demo/router.dart';
+import 'package:flutter_demo/widgets/Toast.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -99,7 +99,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       title: Text('设置'),
                       trailing: Icon(Icons.chevron_right),
                       leading: Icon(Icons.settings),
-                      onTap: () {},
+                      onTap: () {
+                        Toast.show(context, '你呀你呀，就是一个大傻逼，大快来咬我啊！！！').then((value) {
+                          print('toast closed');
+                        });
+                      },
                     ),
                     Divider(
                       height: 1,

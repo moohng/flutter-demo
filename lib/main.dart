@@ -15,7 +15,7 @@ void main() async {
   // 状态栏
   SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   // 强制竖屏
-  // await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
   // await SystemChrome.restoreSystemUIOverlays();
 //  await initializeDateFormatting();
