@@ -34,26 +34,26 @@ enum ScrollNotificationListener {
   edge
 }
 
-//typedef DragListener = void Function(
-//    double dragDistance, ScrollNotificationListener isDragEnd);
+typedef DragListener = void Function(
+    double dragDistance, ScrollNotificationListener isDragEnd);
 
-//class DragController {
-//  DragListener _dragListener;
-//
-//  setDrag(DragListener l) {
-//    _dragListener = l;
-//  }
-//
-//  void updateDragDistance(
-//      double dragDistance, ScrollNotificationListener isDragEnd) {
-//    if (_dragListener != null) {
-//      _dragListener(dragDistance, isDragEnd);
-//    }
-//  }
-//}
+class DragController {
+  DragListener _dragListener;
+
+  setDrag(DragListener l) {
+    _dragListener = l;
+  }
+
+  void updateDragDistance(
+      double dragDistance, ScrollNotificationListener isDragEnd) {
+    if (_dragListener != null) {
+      _dragListener(dragDistance, isDragEnd);
+    }
+  }
+}
 
 
-//DragController _controller;
+DragController _controller;
 
 class DragContainer extends StatefulWidget {
   final Widget drawer;
@@ -85,7 +85,7 @@ class _DragContainerState extends State<DragContainer> with TickerProviderStateM
   Animation<double> animation;
 
   double get defaultOffsetDistance => widget.height - widget.defaultShowHeight;
-  double get maxOffsetDistance => (widget.height + widget.defaultShowHeight) * 0.5;
+  double get maxOffsetDistance => (widget.height - widget.defaultShowHeight) * 0.5;
 
   @override
   void initState() {
@@ -137,13 +137,13 @@ class _DragContainerState extends State<DragContainer> with TickerProviderStateM
               child: widget.drawer,
               height: widget.height,
             ),
-            Offstage(
-              child: Container(
-                color: Colors.transparent,
-                height: widget.height,
-              ),
-              offstage: offstage,
-            ),
+//            Offstage(
+//              child: Container(
+//                color: Colors.transparent,
+//                height: widget.height,
+//              ),
+//              offstage: offstage,
+//            ),
           ],
         ),
       ),
@@ -157,25 +157,29 @@ class _DragContainerState extends State<DragContainer> with TickerProviderStateM
     ///重置value的值时，会刷新UI，故这里使用[onResetControllerValue]来进行过滤。
     _animationController.value = 0.0;
     _onResetControllerValue = false;
-    double start;
+    double start = offsetDistance;
     double end;
     if (offsetDistance <= maxOffsetDistance) {
       ///这个判断通过，说明已经child位置超过警戒线了，需要滚动到顶部了
-      start = offsetDistance;
+//      start = offsetDistance;
       end = 0.0;
     } else {
-      start = offsetDistance;
+//      start = offsetDistance;
       end = defaultOffsetDistance;
     }
 
     if (_isFling &&
         details != null &&
         details.velocity != null &&
-        details.velocity.pixelsPerSecond != null &&
-        details.velocity.pixelsPerSecond.dy < 0) {
-      ///这个判断通过，说明是快速向上滑动，此时需要滚动到顶部了
-      start = offsetDistance;
-      end = 0.0;
+        details.velocity.pixelsPerSecond != null) {
+      if (details.velocity.pixelsPerSecond.dy < 0) {
+        ///这个判断通过，说明是快速向上滑动，此时需要滚动到顶部了
+//        start = offsetDistance;
+        end = 0.0;
+      } else {
+//        start = offsetDistance;
+        end = defaultOffsetDistance;
+      }
     }
 
     ///easeOut 先快后慢
@@ -266,70 +270,70 @@ class MyVerticalDragGestureRecognizer extends VerticalDragGestureRecognizer {
 }
 
 
-//class OverscrollNotificationWidget extends StatefulWidget {
-//  const OverscrollNotificationWidget({
-//    Key key,
-//    @required this.child,
-////    this.scrollListener,
-//  })  : assert(child != null),
-//        super(key: key);
-//
-//  final Widget child;
-////  final ScrollListener scrollListener;
-//
-//  @override
-//  State createState() => _OverscrollNotificationWidgetState();
-//}
-//
-///// Contains the state for a [OverscrollNotificationWidget]. This class can be used to
-///// programmatically show the refresh indicator, see the [show] method.
-//class _OverscrollNotificationWidgetState
-//    extends State<OverscrollNotificationWidget>
-//    with TickerProviderStateMixin<OverscrollNotificationWidget> {
-//  final GlobalKey _key = GlobalKey();
-//
-//  ///[ScrollStartNotification] 部件开始滑动
-//  ///[ScrollUpdateNotification] 部件位置发生改变
-//  ///[OverscrollNotification] 表示窗口小部件未更改它的滚动位置，因为更改会导致滚动位置超出其滚动范围
-//  ///[ScrollEndNotification] 部件停止滚动
-//  ///之所以不能使用这个来build或者layout，是因为这个通知的回调是会有延迟的。
-//  ///Any attempt to adjust the build or layout based on a scroll notification would
-//  ///result in a layout that lagged one frame behind, which is a poor user experience.
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    print('NotificationListener build');
-//    final Widget child = NotificationListener<ScrollStartNotification>(
-//      key: _key,
-//      child: NotificationListener<ScrollUpdateNotification>(
-//        child: NotificationListener<OverscrollNotification>(
-//          child: NotificationListener<ScrollEndNotification>(
-//            child: widget.child,
-//            onNotification: (ScrollEndNotification notification) {
-//              _controller.updateDragDistance(
-//                  0.0, ScrollNotificationListener.end);
-//              return false;
-//            },
-//          ),
-//          onNotification: (OverscrollNotification notification) {
-//            if (notification.dragDetails != null &&
-//                notification.dragDetails.delta != null) {
-//              _controller.updateDragDistance(notification.dragDetails.delta.dy,
-//                  ScrollNotificationListener.edge);
-//            }
-//            return false;
-//          },
-//        ),
-//        onNotification: (ScrollUpdateNotification notification) {
-//          return false;
-//        },
-//      ),
-//      onNotification: (ScrollStartNotification scrollUpdateNotification) {
-//        _controller.updateDragDistance(0.0, ScrollNotificationListener.start);
-//        return false;
-//      },
-//    );
-//
-//    return child;
-//  }
-//}
+class OverscrollNotificationWidget extends StatefulWidget {
+  const OverscrollNotificationWidget({
+    Key key,
+    @required this.child,
+//    this.scrollListener,
+  })  : assert(child != null),
+        super(key: key);
+
+  final Widget child;
+//  final ScrollListener scrollListener;
+
+  @override
+  State createState() => _OverscrollNotificationWidgetState();
+}
+
+/// Contains the state for a [OverscrollNotificationWidget]. This class can be used to
+/// programmatically show the refresh indicator, see the [show] method.
+class _OverscrollNotificationWidgetState
+    extends State<OverscrollNotificationWidget>
+    with TickerProviderStateMixin<OverscrollNotificationWidget> {
+  final GlobalKey _key = GlobalKey();
+
+  ///[ScrollStartNotification] 部件开始滑动
+  ///[ScrollUpdateNotification] 部件位置发生改变
+  ///[OverscrollNotification] 表示窗口小部件未更改它的滚动位置，因为更改会导致滚动位置超出其滚动范围
+  ///[ScrollEndNotification] 部件停止滚动
+  ///之所以不能使用这个来build或者layout，是因为这个通知的回调是会有延迟的。
+  ///Any attempt to adjust the build or layout based on a scroll notification would
+  ///result in a layout that lagged one frame behind, which is a poor user experience.
+
+  @override
+  Widget build(BuildContext context) {
+    print('NotificationListener build');
+    final Widget child = NotificationListener<ScrollStartNotification>(
+      key: _key,
+      child: NotificationListener<ScrollUpdateNotification>(
+        child: NotificationListener<OverscrollNotification>(
+          child: NotificationListener<ScrollEndNotification>(
+            child: widget.child,
+            onNotification: (ScrollEndNotification notification) {
+              _controller.updateDragDistance(
+                  0.0, ScrollNotificationListener.end);
+              return false;
+            },
+          ),
+          onNotification: (OverscrollNotification notification) {
+            if (notification.dragDetails != null &&
+                notification.dragDetails.delta != null) {
+              _controller.updateDragDistance(notification.dragDetails.delta.dy,
+                  ScrollNotificationListener.edge);
+            }
+            return false;
+          },
+        ),
+        onNotification: (ScrollUpdateNotification notification) {
+          return false;
+        },
+      ),
+      onNotification: (ScrollStartNotification scrollUpdateNotification) {
+        _controller.updateDragDistance(0.0, ScrollNotificationListener.start);
+        return false;
+      },
+    );
+
+    return child;
+  }
+}

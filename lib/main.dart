@@ -15,14 +15,15 @@ void main() async {
   // 状态栏
   SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   // 强制竖屏
-   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  await SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
   // await SystemChrome.restoreSystemUIOverlays();
 //  await initializeDateFormatting();
 
   // 错误收集
   CatcherOptions debugOptions = CatcherOptions(
-      DialogReportMode(), [ConsoleHandler()],
+      SilentReportMode(), [ConsoleHandler()],
       localizationOptions: [LocalizationOptions.buildDefaultChineseOptions()]);
   CatcherOptions releaseOptions = CatcherOptions(DialogReportMode(), [
     EmailManualHandler(['moohng@126.com'])
@@ -103,13 +104,18 @@ class _MyAppState extends State<MyApp> {
         const Locale('zh', 'CH'),
         const Locale('en', 'US'),
       ],
-      localizationsDelegates: [                             //此处
+      localizationsDelegates: [
+        //此处
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
       title: 'Startup Name Generator',
       theme: ThemeData(
-        primaryColor: Colors.lightBlue,
+        primaryColor: Color(0xff599efb),
+        bottomAppBarColor: Colors.white,
+        scaffoldBackgroundColor: Colors.white,
+        backgroundColor: Colors.white,
+//        dividerColor: Colors.grey,
       ),
       home: isLogin ? TabBarPage() : LoginPage(),
     );

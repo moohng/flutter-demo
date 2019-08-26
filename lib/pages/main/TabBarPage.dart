@@ -34,12 +34,6 @@ class _TabBarPageState extends State<TabBarPage> {
   @override
   void initState() {
     super.initState();
-
-    // Future.delayed(Duration(seconds: 5), () {
-    //   Navigator.of(context).pushReplacement(CupertinoPageRoute(builder: (context) {
-    //     return LoginPage();
-    //   }));
-    // });
   }
 
   Widget _getPage(int index) {
@@ -61,6 +55,9 @@ class _TabBarPageState extends State<TabBarPage> {
           });
         },
         type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.white,
+        elevation: 0.0,
+        unselectedFontSize: 14.0,
       ),
       backgroundColor: Color.fromARGB(255, 248, 248, 248),
       body: Stack(
