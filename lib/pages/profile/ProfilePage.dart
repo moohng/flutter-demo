@@ -84,7 +84,7 @@ class _ProfilePageState extends State<ProfilePage> {
         title: Text('个人中心'),
         centerTitle: true,
         elevation: 0,
-        iconTheme: IconThemeData(color: Colors.white),
+//        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: RefreshIndicator(
         onRefresh: _onRefresh,

@@ -4,6 +4,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:amap_base/amap_base.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_demo/router.dart';
 import 'package:flutter_demo/services/API.dart';
 //import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_demo/widgets/BottomDragWidget.dart';
@@ -21,38 +22,7 @@ class _HomePageState extends State<HomePage> {
 
   double get screenH => MediaQuery.of(context).size.height;
 
-  List<Map> _listItem = [
-    {
-      'iconCode': 0xe611,
-      'label': '单位管理',
-      'color': Color(0xff5b9dfb),
-      'onTap': () {}
-    },
-    {
-      'iconCode': 0xe600,
-      'label': '告警管理',
-      'color': Color(0xfff1a350),
-      'onTap': () {}
-    },
-    {
-      'iconCode': 0xe69b,
-      'label': '日志管理',
-      'color': Color(0xff60ceb1),
-      'onTap': () {}
-    },
-    {
-      'iconCode': 0xe6cc,
-      'label': '督办管理',
-      'color': Color(0xff60ceb1),
-      'onTap': () {}
-    },
-    {
-      'iconCode': 0xe640,
-      'label': '系统监测',
-      'color': Color(0xff5b9dfb),
-      'onTap': () {}
-    },
-  ];
+  List<Map> _listItem;
 
   List<Map> _messageList = [
     {
@@ -64,6 +34,46 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+
+    _listItem = [
+      {
+        'iconCode': 0xe611,
+        'label': '单位管理',
+        'color': Color(0xff5b9dfb),
+        'onTap': () => goTo('单位管理', 'unit'),
+      },
+      {
+        'iconCode': 0xe600,
+        'label': '告警管理',
+        'color': Color(0xfff1a350),
+        'onTap': () => goTo('告警管理', 'warn'),
+      },
+      {
+        'iconCode': 0xe69b,
+        'label': '日志管理',
+        'color': Color(0xff60ceb1),
+        'onTap': () {}
+      },
+      {
+        'iconCode': 0xe6cc,
+        'label': '督办管理',
+        'color': Color(0xff60ceb1),
+        'onTap': () {}
+      },
+      {
+        'iconCode': 0xe640,
+        'label': '系统监测',
+        'color': Color(0xff5b9dfb),
+        'onTap': () {}
+      },
+    ];
+
+    List<Map> _messageList = [
+      {
+        'content': '警报，警报！收到一条消息，请及时处理，请及时处理',
+        'time': '2018-11-23 16:22:51',
+      },
+    ];
 
     // fetchData();
 
@@ -82,7 +92,7 @@ class _HomePageState extends State<HomePage> {
     // print('data: ${data['user_name']['tenantList'][0]['domain']}');
   }
 
-  fetchLocation() async {
+  void fetchLocation() async {
     bool p = await Permissions().requestPermission();
     if (p) {
       _aMapLocation.init();
@@ -101,6 +111,10 @@ class _HomePageState extends State<HomePage> {
     } else {
       print('no permissions');
     }
+  }
+
+  void goTo(String title, String from) {
+    Router.push(context, Router.UNIT_LIST, { 'title': title, 'from': from });
   }
 
   @override
@@ -205,7 +219,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      onPressed: () {},
+      onPressed: onTap,
     );
   }
 

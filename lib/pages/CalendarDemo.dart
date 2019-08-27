@@ -41,7 +41,6 @@ class _CalendarDemoState extends State {
     _selectedEvents = _events[_selectedDay] ?? [];
 
     _calendarController = CalendarController();
-    _calendarController = CalendarController();
 
 //    _animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 400),);
 //    _animationController.forward();

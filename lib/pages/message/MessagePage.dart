@@ -1,4 +1,3 @@
-//import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/router.dart';
 
@@ -37,11 +36,8 @@ class _MessagePageState extends State<MessagePage> {
       appBar: AppBar(
         title: Text(
           '消息',
-          style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
-//        brightness: Brightness.dark,
-        elevation: 0.0,
       ),
       body: RefreshIndicator(
 //        backgroundColor: Colors.orange,
