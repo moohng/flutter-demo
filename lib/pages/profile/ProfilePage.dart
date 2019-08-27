@@ -80,38 +80,82 @@ class _ProfilePageState extends State<ProfilePage> {
           },
         ),
       ),
-      appBar: AppBar(
-        title: Text('个人中心'),
-        centerTitle: true,
-        elevation: 0,
-//        iconTheme: IconThemeData(color: Colors.white),
-      ),
       body: RefreshIndicator(
         onRefresh: _onRefresh,
-        child: CustomScrollView(
-          physics: BouncingScrollPhysics(),
-          slivers: <Widget>[
-            SliverList(
-              delegate: SliverChildBuilderDelegate((context, index) {
-                return Column(
-                  children: <Widget>[
-                    ListTile(
-                      title: Text('设置'),
-                      trailing: Icon(Icons.chevron_right),
-                      leading: Icon(Icons.settings),
-                      onTap: () {
-                        Toast.show(context, '你呀你呀，就是一个大傻逼，大快来咬我啊！！！').then((value) {
-                          print('toast closed');
-                        });
-                      },
+        child: Stack(
+          children: <Widget>[
+            Image.asset('assets/images/profile_bg.png'),
+            SafeArea(
+              child: CustomScrollView(
+//              physics: BouncingScrollPhysics(),
+                slivers: <Widget>[
+                  SliverToBoxAdapter(
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(top: 104.0, left: 16.0, right: 16.0),
+                          child: Stack(
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.only(top: 50.0),
+                                padding: EdgeInsets.only(top: 56.0, bottom: 18.0),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 4.0)],
+                                  borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                                  color: Colors.white,
+                                ),
+                                child: Column(
+                                  children: <Widget>[
+                                    Text('李四', style: TextStyle(fontSize: 18.0),),
+                                    Text('13744566910', style: TextStyle(color: Colors.grey[500]),),
+                                  ],
+                                ),
+                              ),
+                              Positioned(
+                                child: Center(
+                                  child: Container(
+                                    width: 78.0,
+                                    height: 78.0,
+                                    color: Colors.white,
+                                    alignment: Alignment.center,
+                                    child: Image.network(
+                                      'https://cdn.jsdelivr.net/gh/flutterchina/website@1.0/images/flutter-mark-square-100.png',
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                    Divider(
-                      height: 1,
-                      indent: 64,
-                    ),
-                  ],
-                );
-              }, childCount: 10),
+                  ),
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      return Column(
+                        children: <Widget>[
+                          ListTile(
+                            title: Text('设置'),
+                            trailing: Icon(Icons.chevron_right),
+                            leading: Icon(Icons.settings),
+                            onTap: () {
+                              Toast.show(context, '你呀你呀，就是一个大傻逼，大快来咬我啊！！！').then((value) {
+                                print('toast closed');
+                              });
+                            },
+                          ),
+                          Divider(
+                            height: 1,
+                            indent: 64,
+                          ),
+                        ],
+                      );
+                    }, childCount: 5),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

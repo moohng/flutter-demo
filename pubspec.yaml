@@ -89,3 +89,6 @@ flutter:
     - family: Iconfont
       fonts:
         - asset: assets/fonts/iconfont.ttf
+
+  assets:
+    - assets/images/profile_bg.png
