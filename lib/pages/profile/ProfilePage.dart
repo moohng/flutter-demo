@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_demo/router.dart';
 import 'package:flutter_demo/widgets/Toast.dart';
 
@@ -55,6 +56,35 @@ class _ProfilePageState extends State<ProfilePage> {
     }));
   }
 
+  void _showBottomSheet() {
+    showModalBottomSheet(
+        context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+        ),
+        builder: (context) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                title: Text('退出登录'),
+                leading: Icon(Icons.person),
+                onTap: () {
+                  Router.pushAndRemoveUntil(context, Router.LOGIN_PAGE, null);
+                },
+              ),
+              ListTile(
+                title: Text('退出应用'),
+                leading: Icon(Icons.power_settings_new),
+                onTap: () {
+                  SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                },
+              ),
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     BoxDecoration _decoration = BoxDecoration(
@@ -78,82 +108,80 @@ class _ProfilePageState extends State<ProfilePage> {
             CustomScrollView(
               slivers: <Widget>[
                 SliverToBoxAdapter(
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 120,
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(16.0),
-                        padding: EdgeInsets.only(top: 52.0, bottom: 18.0),
-                        alignment: Alignment.center,
-                        decoration: _decoration,
-                        child: Stack(
-                          overflow: Overflow.visible,
-                          children: <Widget>[
-                            Column(
-                              children: <Widget>[
-                                Text(
-                                  '李四',
-                                  style: TextStyle(fontSize: 18.0),
-                                ),
-                                Text(
-                                  '13744566910',
-                                  style: TextStyle(color: Colors.grey[500]),
-                                ),
-                              ],
-                            ),
-                            Positioned(
-                              top: -90,
-                              child: Center(
-                                child: ProfileAvatar(),
-                              ),
-                            ),
-                          ],
+                  child: SafeArea(
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 80,
                         ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 16),
-                        decoration: _decoration,
-                        child: Column(
-                          children: ListTile.divideTiles(
-                            context: context,
-                            tiles: <Widget>[
-                              ListItem(
-                                label: '个人资料',
-                                iconData: Icons.person_outline,
-                                color: Colors.lightBlueAccent,
-                                onTap: () {},
+                        Container(
+                          margin: EdgeInsets.all(16.0),
+                          padding: EdgeInsets.only(top: 52.0, bottom: 18.0),
+                          alignment: Alignment.center,
+                          decoration: _decoration,
+                          child: Stack(
+                            overflow: Overflow.visible,
+                            children: <Widget>[
+                              Column(
+                                children: <Widget>[
+                                  Text(
+                                    '李四',
+                                    style: TextStyle(fontSize: 18.0),
+                                  ),
+                                  Text(
+                                    '13744566910',
+                                    style: TextStyle(color: Colors.grey[500]),
+                                  ),
+                                ],
                               ),
-                              ListItem(
-                                label: '账号管理',
-                                iconData: Icons.mail_outline,
-                                color: Colors.orangeAccent,
-                                onTap: () {},
-                              ),
-                              ListItem(
-                                label: '密码修改',
-                                iconData: Icons.lock_outline,
-                                color: Colors.lightBlueAccent,
-                                onTap: () {},
-                              ),
-                              ListItem(
-                                label: '退出',
-                                iconData: Icons.power_settings_new,
-                                color: Colors.redAccent,
-                                onTap: () {
-                                  showBottomSheet(
-                                      context: context,
-                                      builder: (context) {
-                                        return Text('====');
-                                      });
-                                },
+                              Positioned(
+                                top: -90,
+                                child: Center(
+                                  child: ProfileAvatar(),
+                                ),
                               ),
                             ],
-                          ).toList(),
+                          ),
                         ),
-                      ),
-                    ],
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 16),
+                          decoration: _decoration,
+                          child: Column(
+                            children: ListTile.divideTiles(
+                              context: context,
+                              tiles: <Widget>[
+                                ListItem(
+                                  label: '个人资料',
+                                  iconData: Icons.person_outline,
+                                  color: Colors.lightBlueAccent,
+                                  onTap: () {},
+                                ),
+                                ListItem(
+                                  label: '账号管理',
+                                  iconData: Icons.mail_outline,
+                                  color: Colors.orangeAccent,
+                                  onTap: () {},
+                                ),
+                                ListItem(
+                                  label: '密码修改',
+                                  iconData: Icons.lock_outline,
+                                  color: Colors.lightBlueAccent,
+                                  onTap: () {},
+                                ),
+                                ListItem(
+                                  label: '退出',
+                                  iconData: Icons.power_settings_new,
+                                  color: Colors.redAccent,
+                                  onTap: () {
+                                    _showBottomSheet();
+                                  },
+                                ),
+                              ],
+                            ).toList(),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
