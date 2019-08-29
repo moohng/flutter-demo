@@ -110,17 +110,17 @@ class _MyAppState extends State<MyApp> {
       ],
       title: 'Startup Name Generator',
       theme: ThemeData(
-        primaryColor: Color(0xff599efb),
+          primaryColor: Color(0xff599efb),
           primaryColorBrightness: Brightness.light, // 黑字
-        bottomAppBarColor: Colors.white,
-        scaffoldBackgroundColor: Colors.white,
-        backgroundColor: Colors.white,
-        appBarTheme: AppBarTheme(
-          brightness: Brightness.light, // 黑状态栏
-          color: Colors.white,
-          elevation: 0,
-        )
-//        dividerColor: Colors.grey,
+          bottomAppBarColor: Colors.white,
+          scaffoldBackgroundColor: Colors.white,
+          backgroundColor: Colors.white,
+          platform: TargetPlatform.iOS,
+          appBarTheme: AppBarTheme(
+            brightness: Brightness.light, // 黑状态栏
+            color: Colors.white,
+            elevation: 0,
+          )
       ),
       home: isLogin ? TabBarPage() : LoginPage(),
     );

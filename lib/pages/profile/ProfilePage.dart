@@ -12,7 +12,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  TextEditingController _textController = TextEditingController(text: '');
+//  TextEditingController _textController = TextEditingController(text: '');
 
   Future<void> _onRefresh() async {
     await Future.delayed(Duration(seconds: 2), () {
@@ -22,144 +22,206 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void _openDialog() {
     showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        TextEditingController editingController = TextEditingController();
-        return AlertDialog(
-          title: Text('打开'),
-          content: Container(
-            child: TextField(
-              controller: editingController,
-              decoration: InputDecoration(
-                labelText: '请输入页面地址'
+        context: context,
+        builder: (BuildContext context) {
+          TextEditingController editingController = TextEditingController();
+          return AlertDialog(
+            title: Text('打开'),
+            content: Container(
+              child: TextField(
+                controller: editingController,
+                decoration: InputDecoration(labelText: '请输入页面地址'),
               ),
             ),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('确定'),
-              onPressed: () {
-                String urlStr = editingController.text;
-                if (urlStr.isNotEmpty) {
-                  Navigator.of(context).pop();
-                  Router.push(context, urlStr, null);
-                }
-              },
-            )
-          ],
-        );
-      }
-    );
+            actions: <Widget>[
+              FlatButton(
+                child: Text('确定'),
+                onPressed: () {
+                  String urlStr = editingController.text;
+                  if (urlStr.isNotEmpty) {
+                    Navigator.of(context).pop();
+                    Router.push(context, urlStr, null);
+                  }
+                },
+              )
+            ],
+          );
+        });
+  }
+
+  Future<dynamic> _navTo(Widget page) async {
+    return Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return page;
+    }));
   }
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarIconBrightness: Brightness.dark,
-    ));
+    BoxDecoration _decoration = BoxDecoration(
+      boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 4.0)],
+      borderRadius: BorderRadius.all(Radius.circular(12.0)),
+      color: Colors.white,
+    );
 
     return Scaffold(
-      floatingActionButton: Container(
-//        color: Colors.lightBlue,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.lightBlue,
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: Colors.black45,
-              blurRadius: 5.0,
-            )
-          ],
-//          borderRadius: BorderRadius.circular(40.0),
-        ),
-        child: IconButton(
-          icon: Icon(Icons.add),
-          color: Colors.white,
-          onPressed: () {
-            _openDialog();
-          },
-        ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.open_in_new),
+        onPressed: () {
+          _openDialog();
+        },
       ),
       body: RefreshIndicator(
         onRefresh: _onRefresh,
         child: Stack(
           children: <Widget>[
             Image.asset('assets/images/profile_bg.png'),
-            SafeArea(
-              child: CustomScrollView(
-//              physics: BouncingScrollPhysics(),
-                slivers: <Widget>[
-                  SliverToBoxAdapter(
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(top: 104.0, left: 16.0, right: 16.0),
-                          child: Stack(
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(top: 50.0),
-                                padding: EdgeInsets.only(top: 56.0, bottom: 18.0),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 4.0)],
-                                  borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                                  color: Colors.white,
+            CustomScrollView(
+              slivers: <Widget>[
+                SliverToBoxAdapter(
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 120,
+                      ),
+                      Container(
+                        margin: EdgeInsets.all(16.0),
+                        padding: EdgeInsets.only(top: 52.0, bottom: 18.0),
+                        alignment: Alignment.center,
+                        decoration: _decoration,
+                        child: Stack(
+                          overflow: Overflow.visible,
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                Text(
+                                  '李四',
+                                  style: TextStyle(fontSize: 18.0),
                                 ),
-                                child: Column(
-                                  children: <Widget>[
-                                    Text('李四', style: TextStyle(fontSize: 18.0),),
-                                    Text('13744566910', style: TextStyle(color: Colors.grey[500]),),
-                                  ],
+                                Text(
+                                  '13744566910',
+                                  style: TextStyle(color: Colors.grey[500]),
                                 ),
+                              ],
+                            ),
+                            Positioned(
+                              top: -90,
+                              child: Center(
+                                child: ProfileAvatar(),
                               ),
-                              Positioned(
-                                child: Center(
-                                  child: Container(
-                                    width: 78.0,
-                                    height: 78.0,
-                                    color: Colors.white,
-                                    alignment: Alignment.center,
-                                    child: Image.network(
-                                      'https://cdn.jsdelivr.net/gh/flutterchina/website@1.0/images/flutter-mark-square-100.png',
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 16),
+                        decoration: _decoration,
+                        child: Column(
+                          children: ListTile.divideTiles(
+                            context: context,
+                            tiles: <Widget>[
+                              ListItem(
+                                label: '个人资料',
+                                iconData: Icons.person_outline,
+                                color: Colors.lightBlueAccent,
+                                onTap: () {},
+                              ),
+                              ListItem(
+                                label: '账号管理',
+                                iconData: Icons.mail_outline,
+                                color: Colors.orangeAccent,
+                                onTap: () {},
+                              ),
+                              ListItem(
+                                label: '密码修改',
+                                iconData: Icons.lock_outline,
+                                color: Colors.lightBlueAccent,
+                                onTap: () {},
+                              ),
+                              ListItem(
+                                label: '退出',
+                                iconData: Icons.power_settings_new,
+                                color: Colors.redAccent,
+                                onTap: () {
+                                  showBottomSheet(
+                                      context: context,
+                                      builder: (context) {
+                                        return Text('====');
+                                      });
+                                },
                               ),
                             ],
-                          ),
+                          ).toList(),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      return Column(
-                        children: <Widget>[
-                          ListTile(
-                            title: Text('设置'),
-                            trailing: Icon(Icons.chevron_right),
-                            leading: Icon(Icons.settings),
-                            onTap: () {
-                              Toast.show(context, '你呀你呀，就是一个大傻逼，大快来咬我啊！！！').then((value) {
-                                print('toast closed');
-                              });
-                            },
-                          ),
-                          Divider(
-                            height: 1,
-                            indent: 64,
-                          ),
-                        ],
-                      );
-                    }, childCount: 5),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+// 头像
+class ProfileAvatar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      radius: 39,
+      backgroundColor: Colors.white,
+      backgroundImage: NetworkImage(
+        'https://cdn.jsdelivr.net/gh/flutterchina/website@1.0/images/flutter-mark-square-100.png',
+      ),
+    );
+
+//    return Container(
+//      width: 78.0,
+//      height: 78.0,
+//      decoration: BoxDecoration(
+//        color: Colors.white,
+//        shape: BoxShape.circle,
+//        image: DecorationImage(
+//          image: NetworkImage(
+//            'https://cdn.jsdelivr.net/gh/flutterchina/website@1.0/images/flutter-mark-square-100.png',
+//          ),
+//        ),
+//      ),
+//    );
+  }
+}
+
+// ListItem
+class ListItem extends StatelessWidget {
+  final Function onTap;
+  final String label;
+  final IconData iconData;
+  final Color color;
+
+  ListItem(
+      {Key key,
+      @required this.label,
+      @required this.iconData,
+      @required this.onTap,
+      this.color})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(label),
+      leading: Icon(
+        iconData,
+        color: color ?? Colors.lightBlue,
+      ),
+      trailing: Icon(
+        Icons.arrow_forward_ios,
+        color: Colors.grey[300],
+        size: 16,
+      ),
+      onTap: onTap,
     );
   }
 }
